@@ -2,8 +2,8 @@
 This project extracts data from news.api.org and uploads the transformed data into AWS S3 bucket using Airflow.
 
 ## The project has three files:
-1. tempus_dag.py
-2. tempus_bonus_dag.py
+1. dag1.py
+2. dag2.py
 3. utils.py
 
 `tempus_dag.py` schedules three tasks 
@@ -11,15 +11,15 @@ This project extracts data from news.api.org and uploads the transformed data in
 2. Task Two: Fetches top-headlines for all the English language sources. Formats and creates .csv files for each source and returns list of csv filenames.
 3. Task Three: Uploads the list of csvfiles to s3 and deletes the files once uploaded.
 
-`tempus_bonus_dag.py` schedules two tasks
+`dag2.py` schedules two tasks
 1. Task One: Fetches top-headlines based on given keywords string. Formats and creates .csv files for each keyword and returns list of csv filenames.
 2. Task Two: Uploads the list of csvfiles to s3 and deletes the files once uploaded.
 
 `utils.py` has utility functions to fetch data from newsapi and upload csv files to aws-s3 these functions are shared between above mentioned dags.
 
     config = {
-        'news_api_key': '324dac20b7754c8f8e424ad92734535f',
-        's3_bucket': 'tempuschallenge'
+        'news_api_key': '',
+        's3_bucket': ''
     }
 
 Above config in `utils.py` should be updated with your `newsapi key` and `s3_bucket name` to which the csv files have to be uploaded. 

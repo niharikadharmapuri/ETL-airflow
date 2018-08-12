@@ -18,11 +18,11 @@ dag = DAG('dag2', default_args=default_args,
           schedule_interval='0 0 * * *', max_active_runs=1)# scheduled to run everyday at midnight
 
 
-util=Utility(news_api_key='324dac20b7754c8f8e424ad92734535f',s3_bucket='nmbpque')
+util=Utility(news_api_key='',s3_bucket='')
 
 # fetch headlines for a string of keyword
 def getHeadlines(**kwargs):
-    searchValues = 'Tempus Labs,Eric Lefkofsky,Cancer,Immunotherapy'# replace with the search words you want to search for
+    searchValues = 'Cancer,Immunotherapy'# replace with the search words you want to search for
     csvList=util.getheadlineswithkeywords(searchValues)
     return csvList
 
