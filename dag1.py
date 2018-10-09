@@ -12,7 +12,7 @@ default_args = {
     'start_date': dt.datetime.strptime('2018-07-29T00:00:00', '%Y-%m-%dT%H:%M:%S'),
     'provide_context': True
 }
-# Instantiate the DAG.stupid dag
+# Instantiate the DAG
 dag = DAG('dag1', default_args=default_args,
           schedule_interval='0 0 * * *', max_active_runs=1) # scheduled to run everyday at midnight
 

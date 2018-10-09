@@ -6,7 +6,7 @@ This project extracts data from news.api.org and uploads the transformed data in
 2. dag2.py
 3. utils.py
 
-`tempus_dag.py` schedules three tasks 
+`_dag.py` schedules three tasks 
 1. Task One: Fetches all sources for English language.
 2. Task Two: Fetches top-headlines for all the English language sources. Formats and creates .csv files for each source and returns list of csv filenames.
 3. Task Three: Uploads the list of csvfiles to s3 and deletes the files once uploaded.
@@ -44,6 +44,6 @@ In a new tab run<br/>
 open airflow UI<br/>
 	`http://localhost:8080/admin/`
 
-Turn on the toggle for dags named `Tempus_dag` and `Tempus_bonus_dag` they should be scheduled to run daily once. 
+Turn on the toggle for dags named `dag1` and `dag2` they should be scheduled to run daily once. 
 
 However, you could manually trigger the dag run by clicking the play button in the links column.

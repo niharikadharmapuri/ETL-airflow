@@ -20,13 +20,13 @@ class Utility:
 
 # method getSources()
 # params languages as comma separated string for example 'en' or 'en,es,fr'
-# returns a list of sources as comma separated string for example 'abc,abc-us,bbc' 
+# this method returns a list of sources as comma separated string for example 'abc,abc-us,bbc' 
     def getSources(self,category=None,language=None, country=None):
         cat=category
         lang=language
         count=country
         newsapi = NewsApiClient(api_key=self.news_api_key)
-        allSources = newsapi.get_sources(category=cat,language=lang,country=count) 
+        allSources = newsapi.get_sources(category=cat,language=lang,country=count) #nested dict
         # create a comma separated string from allsources dict
         sourceList = []
         for source in allSources['sources']:
@@ -48,17 +48,18 @@ class Utility:
             articlesList = []
             articleSourceName = ''
             for article in top_headlines['articles']: # for each article 
-                if article['source']['id'] == source:
-                    articleSourceName = article['source']['name']
-                    articlesList.append(flatten(article, reducer='path')) # flatten and append to articlesList
-            if articleSourceName != '':  # append only if articleSourceName 
-                articlesListBySource.append({'sourceName':articleSourceName, 'articlesList':articlesList})
+                if article['source']['id'] == source: # extract its source id
+                    articleSourceName = article['source']['name']#
+                    articlesList.append(flatten(article, reducer='path')) # flatten the article and append to articlesList
+            if articleSourceName != '':  # in each iteration collect articles with that specific name 
+                articlesListBySource.append({'sourceName':articleSourceName, 'articlesList':articlesList})# grouping by sourcenames
+        
         csvFilesList = []
         for source in articlesListBySource: # for each source
-            columns = set().union(*(d.keys() for d in source['articlesList']))
-            csvFilesList.append(re.sub('[^a-zA-Z0-9]','_',source['sourceName'])+'.csv')
+            columns = set().union(*(d.keys() for d in source['articlesList']))# extract the columns from the artilcelist
+            csvFilesList.append(re.sub('[^a-zA-Z0-9]','_',source['sourceName'])+'.csv')# forming csv names
             with open(re.sub('[^a-zA-Z0-9]','_',source['sourceName'])+'.csv', 'w', newline='') as csvfile:
-                writer = csv.DictWriter(csvfile, columns)
+                writer = csv.DictWriter(csvfile, columns)# to write the dict into a csvfile
                 writer.writeheader()
                 for article in source['articlesList']:
                     writer.writerow(article)
